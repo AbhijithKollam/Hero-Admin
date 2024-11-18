@@ -1,0 +1,61 @@
+.custom-border {
+    border-bottom: 2px solid white;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+  .table-responsive {
+    margin: 20px 50px 20px 50px;
+}
+
+/* Custom styling for status dropdown */
+select.pending {
+    color: #96350f; 
+    font-weight: bold;
+}
+
+select.inprogress {
+    color: #ebbd29; 
+    font-weight: bold;
+}
+
+select.completed {
+    color: #279641; 
+    font-weight: bold;
+}
+
+/* Add these styles to make sure the table background is transparent */
+.table {
+    background-color: transparent;
+    border: 1px solid #ddd;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.05); /* Light grey background for odd rows */
+}
+
+/* Add this to your CSS file */
+.filter-popover {
+    max-width: 200px; /* Adjust the size of the popover */
+    padding:0px !important;
+  }
+  
+  .filter-popover ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .filter-popover li {
+    padding: 5px 0;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .filter-popover li:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+  .popover-basic{
+    padding: 0px !important;
+  }
+  
