@@ -11,8 +11,8 @@ export const loginAPI = async (reqBody) => {
     return await commonAPI("post", `${BASE_URL}/user/login`, reqBody, "")
 }
  
-export const getAllCmp=async ()=>{
-    return await commonAPI("get",`${BASE_URL}/complaints/getAll`)
+export const getAllCmp=async (key)=>{
+    return await commonAPI("get",`${BASE_URL}/complaints/getAll/?key=${encodeURIComponent(key)}`)
 }
  
 export const statusChange=async (data)=>{

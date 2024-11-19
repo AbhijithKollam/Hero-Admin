@@ -10,15 +10,18 @@ function Progress() {
     const [selectedRow, setSelectedRow] = useState(null);
     const [data, setData] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-       // State for managing the visibility of the popover
-       const [showPopover, setShowPopover] = useState(false);
+    // State for managing the visibility of the popover
+    const [showPopover, setShowPopover] = useState(false);
+
+    const [dashboardTrigger, setTrigger] = useState(false)
+
 
     useEffect(() => {
         getAllCount()
-    }, []);
+    }, [searchQuery,dashboardTrigger]);
 
     const getAllCount = async () => {
-        const result = await getAllCmp()
+        const result = await getAllCmp(searchQuery)
         setData(result.data.progress)
     };
 
@@ -37,6 +40,7 @@ function Progress() {
         const result = await statusChange(newData)
         if (result.status === 200) {
             setData(updatedData);
+            setTrigger(!dashboardTrigger)
             alert("Status Updated")
         }
         else {
@@ -48,7 +52,7 @@ function Progress() {
     const handleRowClick = (id) => {
         setSelectedRow(selectedRow === id ? null : id); // Toggle the selected row
     };
- 
+
 
     const nameFilter = async () => {
         console.log("Inside nameFilter");
@@ -107,7 +111,7 @@ function Progress() {
 
     return (
         <div>
-            <Dashboard data={data.length} />
+            <Dashboard trigger={dashboardTrigger} />
             <div className='text-white d-flex justify-content-between p-3 m-5 bg-transparent custom-border'>
                 <h1>In Progress Complaints</h1>
                 <div className='d-flex'>

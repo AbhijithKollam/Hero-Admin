@@ -6,7 +6,7 @@ import { getAllCmp } from '../Services/allApis';
 import { useNavigate } from 'react-router-dom';
 
 
-const Dashboard = ({ data }) => {
+const Dashboard = ({ trigger }) => {
     // States to store counts of different statuses
     const [pendingCount, setPendingCount] = useState(0);
     const [inProgressCount, setInProgressCount] = useState(0);
@@ -15,10 +15,10 @@ const Dashboard = ({ data }) => {
 
     useEffect(() => {
         getAllCount()
-    }, [data]);
+    }, [trigger]);
 
     const getAllCount = async () => {
-        const result = await getAllCmp()
+        const result = await getAllCmp("")
         setPendingCount(result.data.pending.length);
         setInProgressCount(result.data.progress.length);
         setCompletedCount(result.data.completed.length);

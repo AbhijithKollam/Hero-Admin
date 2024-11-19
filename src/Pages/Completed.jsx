@@ -7,19 +7,24 @@ import { Popover, OverlayTrigger } from 'react-bootstrap';
 
 
 function Completed() {
-    // Sample data for the table (replace with dynamic data as needed)
+
     const [selectedRow, setSelectedRow] = useState(null);
     const [data, setData] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [dashboardTrigger,setTrigger]= useState(false)
+
 
     useEffect(() => {
         getAllCount()
-    }, []);
+    }, [searchQuery,dashboardTrigger]);
 
     const getAllCount = async () => {
-        const result = await getAllCmp()
+        const result = await getAllCmp(searchQuery)
         setData(result.data.completed)
     };
-
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value); // Update search query
+    };
     // Function to handle the status change
     const handleStatusChange = async (id, newStatus) => {
         const updatedData = data.map((row) => {
@@ -34,8 +39,8 @@ function Completed() {
         }
         const result = await statusChange(newData)
         if (result.status === 200) {
-            getAllCount()
-            setData(updatedData);
+             setData(updatedData);
+             setTrigger(!dashboardTrigger)
             alert("Status Updated")
         }
         else {
@@ -52,7 +57,7 @@ function Completed() {
 
     const nameFilter = async () => {
         console.log("Inside nameFilter");
-    
+
         // Create a new sorted array, do not mutate the original data
         const sortedData = [...data].sort((a, b) => {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {
@@ -63,30 +68,30 @@ function Completed() {
             }
             return 0; // a and b are equal
         });
-    
+
         console.log("Sorted Data: ", sortedData);
-    
+
         setData(sortedData); // Update the state with the sorted data
         handleTogglePopover()
     };
     const dateFilter = async () => {
         console.log("Inside dateFilter");
-    
+
         // Create a new sorted array, do not mutate the original data
         const sortedData = [...data].sort((a, b) => {
             const dateA = new Date(a.createdAt);
             const dateB = new Date(b.createdAt);
-    
+
             return dateB - dateA; // Sort in ascending order
         });
-    
+
         console.log("Sorted by Date: ", sortedData);
-    
+
         setData(sortedData); // Update the state with the sorted data
         handleTogglePopover()
     };
-    
-    
+
+
     // Toggle the popover visibility
     const handleTogglePopover = () => setShowPopover(!showPopover);
 
@@ -101,26 +106,40 @@ function Completed() {
             </Popover.Body>
         </Popover>
     );
-    
+
 
     return (
         <div>
-            <Dashboard data={data.length} />
+            <Dashboard trigger={dashboardTrigger} />
             <div className='text-white d-flex justify-content-between p-3 m-5 bg-transparent custom-border'>
                 <h1>Completed Complaints</h1>
-                {/* OverlayTrigger to show the popover when the icon is clicked */}
-                <OverlayTrigger
-                    trigger="click"
-                    placement="bottom"
-                    overlay={popover}
-                    show={showPopover}
-                    onToggle={handleTogglePopover} // Toggle popover on icon click
-                >
-                    <i
-                        className="fa-solid fa-arrow-down-wide-short d-flex fs-4 align-items-center"
-                        style={{ cursor: 'pointer' }}
-                    ></i>
-                </OverlayTrigger>
+                <div className='d-flex'>
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        className="form-control border-rounded me-3"
+                        style={{
+                            maxWidth: '250px',
+                            borderRadius: '30px',
+                            paddingLeft: '10px',
+                        }}
+                    />
+                    {/* OverlayTrigger to show the popover when the icon is clicked */}
+                    <OverlayTrigger
+                        trigger="click"
+                        placement="bottom"
+                        overlay={popover}
+                        show={showPopover}
+                        onToggle={handleTogglePopover} // Toggle popover on icon click
+                    >
+                        <i
+                            className="fa-solid fa-arrow-down-wide-short d-flex fs-4 align-items-center"
+                            style={{ cursor: 'pointer' }}
+                        ></i>
+                    </OverlayTrigger>
+                </div>
             </div>
 
             {/* Table for displaying complaints */}
