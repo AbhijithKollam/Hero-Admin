@@ -7,6 +7,7 @@ import { loginAPI, registerAPI } from '../Services/allApis';
 function Auth({ register }) {
     const navigate = useNavigate();
     const registerForm = register ? true : false;
+    const [loading, setLoading] = useState(false)
     const [userData, setUserData] = useState({
         username: "",
         email: "",
@@ -47,29 +48,37 @@ function Auth({ register }) {
         }
     }
 
-    const handleLogin =async (e) => {
+    const handleLogin = async (e) => {
+        setLoading(true)
         e.preventDefault();
-        const {email,password} = userData;
-        if(!email || !password){
+        const { email, password } = userData;
+        if (!email || !password) {
             alert("Please fill the form completely")
         }
-        else{
-            userData.role="admin";
+        else {
+            userData.role = "admin";
             userData.email = email.toLocaleLowerCase();
             const result = await loginAPI(userData);
-            if (result.status===200){
+            if (result.status === 200) {
                 console.log(result);
-                localStorage.setItem("existingUser", JSON.stringify(result.data.existingUser) );
-                // setIsAuthToken(true);
-                alert("User logged in successfully")
-                setUserData({
-                    username:"",
-                    email:"",
-                    password:""
-                })
-                navigate('/pending')
+                localStorage.setItem("existingUser", JSON.stringify(result.data.existingUser));
+
+                setTimeout(() => {
+
+                    alert("User logged in successfully");
+                    setLoading(false)
+
+                    setUserData({
+                        username: "",
+                        email: "",
+                        password: ""
+                    });
+
+                    navigate('/home');
+                }, 3000);  // 3000 milliseconds = 3 seconds
             }
-            else{
+            else {
+                setLoading(false)
                 setUserData({
                     username: "",
                     email: "",
@@ -77,7 +86,8 @@ function Auth({ register }) {
                 })
                 alert(result.response.data)
             }
-        }    }
+        }
+    }
 
     return (
         <>
@@ -165,7 +175,7 @@ function Auth({ register }) {
                                                 <button
                                                     className="btn btn-warning rounded mt-3"
                                                     onClick={handleRegister}
-                                                    disabled={!emailValid } // Disable if email is invalid or password is empty
+                                                    disabled={!emailValid} // Disable if email is invalid or password is empty
                                                 >
                                                     Register
                                                 </button>
@@ -178,13 +188,19 @@ function Auth({ register }) {
                                             </div>
                                         ) : (
                                             <div>
-                                                <button
-                                                    className="btn btn-warning rounded mt-3"
-                                                    onClick={handleLogin}
-                                                    disabled={!emailValid || !userData.password} // Disable if email is invalid or password is empty
-                                                >
-                                                    Login
-                                                </button>
+                                                {
+                                                    loading ?
+                                                        <button className="btn btn-warning rounded mt-3"><i className="fa-solid fa-spinner fa-spin"></i></button>
+                                                        :
+                                                        <button
+                                                            className="btn btn-warning rounded mt-3"
+                                                            onClick={handleLogin}
+                                                            disabled={!emailValid || !userData.password} // Disable if email is invalid or password is empty
+                                                        >
+                                                            Login
+                                                        </button>
+                                                }
+                                                
                                                 <p className="mt-3">
                                                     New here? click here to{' '}
                                                     <Link to="/register" style={{ textDecoration: 'none' }}>
