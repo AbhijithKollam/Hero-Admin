@@ -74,7 +74,7 @@ function Auth({ register }) {
                         password: ""
                     });
 
-                    navigate('/home');
+                    navigate('/pending');
                 }, 3000);  // 3000 milliseconds = 3 seconds
             }
             else {
@@ -97,7 +97,7 @@ function Auth({ register }) {
                     height: '100vh',
                     width: '100%',
                     overflow: 'hidden',
-                    backgroundImage: `url('https://storage.googleapis.com/a1aa/image/f86vjuwJsqRRG6lyydhSULLbDfQBJBelHYNoUZ8bQbF40hinA.jpg')`,
+                    backgroundImage: `url('https://storage.googleapis.com/a1aa/image/XOBCtYdSFC5fCqPS0JijR1zD9iChKTX63HVU4ekoXyepefTeE.jpg')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}
@@ -123,10 +123,10 @@ function Auth({ register }) {
                     <div className='w-75 container'>
 
 
-                        <div className='card bg-transparent p-5 mt-3 rounded text-white'>
+                        <div className='card bg-transparent  mt-3 rounded text-white'>
                             <div className='row align-items-center'>
                                 <div className="col-lg-6 col-md-6">
-                                    <img src={authImage} alt="auth " style={{ width: '100%', borderRadius: '50%' }} />
+                                    <img src="https://storage.googleapis.com/a1aa/image/4Acfd5tOIN3iDaSfQXpMFYesKcle0u5ba6jf3cfalsRCbAo8E.jpg" alt="auth " style={{ width: '100%', borderRadius: '50%' }} />
                                 </div>
 
                                 <div className='col-lg-6 col-md-6 p-3'>
